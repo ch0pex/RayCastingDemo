@@ -25,8 +25,7 @@ void draw() {
 
     for (sf::Vertex* wall : boundries->getWalls()) window->draw(wall, 2, sf::Lines); 
     window->draw(particle->getShape());
-    window->draw(particle->getRay().getLine(), 2, sf::Lines);
-
+    for (Ray* ray : particle->getRays()) window->draw(ray->getLine(), 2, sf::Lines); 
 }
 
 
@@ -42,8 +41,9 @@ void UpdateInput() {
                 boundries->recalculate();
             else if (event.key.code == sf::Keyboard::Space)
                 window->close();
-            else if (event.key.code == sf::Keyboard::C)
-                std::cout << particle->getRay().detectColide(boundries->getWalls().at(0)) << std::endl;
+            else if (event.key.code == sf::Keyboard::T) {
+                for (Ray* ray : particle->getRays()) ray->Update((sf::Vector2f)particle->position, boundries->getWalls());
+            }
         }
                 
     }             
@@ -63,7 +63,7 @@ int main() {
 
         // Update Game Objects in the scene 
         window->clear(sf::Color::Black);
-        particle->Update(mouse.getPosition(*window), boundries->getWalls().at(0));
+        particle->Update(mouse.getPosition(*window), boundries->getWalls());
         
         draw(); 
 
