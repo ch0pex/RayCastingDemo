@@ -5,16 +5,34 @@
 #include <list>
 #include<windows.h>
 
-sf::Vector2f viewSize(1920, 1080); 
-sf::VideoMode vm(viewSize.x, viewSize.y);
+ 
+
 sf::RenderWindow* window;
 Particle* particle; 
 sf::Mouse mouse; 
-//std::vector<sf::Vertex*> walls;
 Walls* boundries; 
 
 
-void init() {
+void init(int resMode = 1080, float rayRes = 1) {
+    switch (resMode)
+    {
+    case 1080: 
+        sf::Vector2f viewSize(1920, 1080);
+        break;
+    case 800: 
+        sf::Vector2f viewSize(800, 800);
+        break;
+    case 720: 
+        sf::Vector2f viewSize(1280, 720);
+        break;
+    default:
+        std::cout << "ResMode was wrong, it must be 1080, 800, or 720" << std::endl;
+        Sleep(5); 
+        exit(-1);
+        break;
+    }
+    sf::Vector2f viewSize(1920, 1080);
+    sf::VideoMode vm(viewSize.x, viewSize.y);
     srand(time(NULL));
     boundries = new Walls();
     window = new sf::RenderWindow(vm, "Raycasting 2d demo", sf::Style::Default);
@@ -50,9 +68,15 @@ void UpdateInput() {
 
 
 
-int main() {
-    init();
+int main(int argc, char* argv[]) {
+    if (argc == 2 && argc > 5) {
+        std::cout << "Wrong arguments" << std::endl; 
+        exit(-1); 
+    }
 
+        
+
+    init();
     //init game objects 
     while (window->isOpen()) {
         // Handle Keyboard events 
@@ -69,3 +93,9 @@ int main() {
     
     return 0;
 }
+
+
+
+
+
+

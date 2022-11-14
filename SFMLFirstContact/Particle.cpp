@@ -1,13 +1,13 @@
 #include "Particle.h"
 
-Particle::Particle(sf::Vector2f pos)
+Particle::Particle(sf::Vector2f pos, float res)
 {
 	shape = new sf::CircleShape(); 
 	shape->setRadius(10);
 	shape->setFillColor(sf::Color::White); 
 	shape->setPosition(pos);
 	shape->setOrigin(sf::Vector2f(shape->getRadius(), shape->getRadius()));
-	genRays(); 
+	genRays(res); 
 }
 
 void Particle::Update(sf::Vector2i mousePos, std::vector<sf::Vertex*> walls) {
@@ -17,7 +17,7 @@ void Particle::Update(sf::Vector2i mousePos, std::vector<sf::Vertex*> walls) {
 	
 }
 
-void Particle::genRays() {
+void Particle::genRays(float res) {
 	for (float i = 0; i < 360; i+= 2)
 	{
 		float rad = (i * 3.141592f) / 180;
