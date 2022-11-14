@@ -18,10 +18,9 @@ void Particle::Update(sf::Vector2i mousePos, std::vector<sf::Vertex*> walls) {
 }
 
 void Particle::genRays() {
-	for (size_t i = 0; i < 360; i++)
+	for (float i = 0; i < 360; i+= 2)
 	{
 		float rad = (i * 3.141592f) / 180;
-		std::cout << sin(rad) << "," << cos(rad) << std::endl;
 		rays.push_back(new Ray((sf::Vector2f) position, sf::Vector2f(sin(rad), cos(rad)))); 
 	}
 }

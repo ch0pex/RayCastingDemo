@@ -3,6 +3,7 @@
 #include "Particle.h"
 #include "Walls.h"
 #include <list>
+#include<windows.h>
 
 sf::Vector2f viewSize(1920, 1080); 
 sf::VideoMode vm(viewSize.x, viewSize.y);
@@ -41,14 +42,10 @@ void UpdateInput() {
                 boundries->recalculate();
             else if (event.key.code == sf::Keyboard::Space)
                 window->close();
-            else if (event.key.code == sf::Keyboard::T) {
-                for (Ray* ray : particle->getRays()) ray->Update((sf::Vector2f)particle->position, boundries->getWalls());
-            }
         }
                 
     }             
 }
-
 
 
 
@@ -59,8 +56,7 @@ int main() {
     //init game objects 
     while (window->isOpen()) {
         // Handle Keyboard events 
-        UpdateInput();
-
+        UpdateInput(); 
         // Update Game Objects in the scene 
         window->clear(sf::Color::Black);
         particle->Update(mouse.getPosition(*window), boundries->getWalls());
