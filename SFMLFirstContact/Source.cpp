@@ -13,6 +13,7 @@ sf::Mouse mouse;
 Walls* boundries; 
 
 
+
 void init(int resMode = 1080, float rayRes = 1) {
     sf::Vector2f viewSize; 
     switch (resMode)
@@ -32,6 +33,7 @@ void init(int resMode = 1080, float rayRes = 1) {
         exit(-1);
         break;
     }
+
     sf::VideoMode vm(viewSize.x, viewSize.y);
     srand(time(NULL));
     boundries = new Walls();
@@ -92,9 +94,11 @@ int main(int argc, char **argv) {
                 else if (!strcmp(argv[i+1], "800")) resMode = 800;
                 else
                 {
-                    std::cout << "Resolution mode must be: 1080 or 720 or 800" << std::endl; return(0);
+                    std::cout << "Resolution mode must be: 1080 or 720 or 800" << std::endl;
+                    return(0);
                 }
             }
+            
 
         }
 
