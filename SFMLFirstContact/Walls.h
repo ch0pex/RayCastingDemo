@@ -6,8 +6,9 @@ class Walls {
 private: 
 	std::vector<sf::Vertex*> lines; 
 	void createWall();
+	int quantity; 
 public: 
-	Walls(); 
+	Walls(int numWalls); 
 	std::vector<sf::Vertex*> getWalls();
 	void recalculate(); 
 };

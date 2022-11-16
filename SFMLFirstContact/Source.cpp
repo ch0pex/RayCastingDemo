@@ -14,7 +14,7 @@ Walls* boundries;
 
 
 
-int init(int resMode = 1080, float rayRes = 1) {
+int init(int resMode, float rayRes, int numWalls) {
     sf::Vector2f viewSize;
     switch (resMode)
     {
@@ -35,7 +35,7 @@ int init(int resMode = 1080, float rayRes = 1) {
     
     sf::VideoMode vm(viewSize.x, viewSize.y);
     srand(time(NULL));
-    boundries = new Walls();
+    boundries = new Walls(numWalls);
     window = new sf::RenderWindow(vm, "Raycasting 2d demo", sf::Style::None);
     particle = new Particle(sf::Vector2f(viewSize.x / 2, viewSize.y / 2), rayRes);
     return (1);
@@ -71,8 +71,8 @@ void UpdateInput() {
 int main(int argc, char **argv) {
     int resMode = 1080; 
     float raysRes = 1; 
-    
-    if (argc == 2 || argc > 5) 
+    int numWalls = ((rand() % 10) + 5);
+    if (argc == 2 || argc > 7) 
     {
         std::cout << "Wrong arguments" << std::endl; 
         return(0);
@@ -83,7 +83,7 @@ int main(int argc, char **argv) {
             std::cout << "Wrong argumentes" << std::endl; 
             return(0); 
         }
-        for (size_t i = 1; i < 5; i += 2) 
+        for (size_t i = 1; i < 7; i += 2) 
         {
             if (argv[i] && !strcmp(argv[i], "-s") && argv[i+1])
             {
@@ -99,17 +99,26 @@ int main(int argc, char **argv) {
             else if (argv[i] && !strcmp(argv[i], "-r") && argv[i + 1]) {
                 if (atoi(argv[i + 1])) 
                 {
-                    std::cout << "Entro aqui" << std::endl;
                     raysRes = atoi(argv[i + 1]);
                 }
+            }
+            else if (argv[i] && !strcmp(argv[i], "-w") && argv[i + 1]) {
+                if (atoi(argv[i + 1]) && atoi(argv[i + 1]) <= 50 && atoi(argv[i + 1]) >= 0) numWalls = atoi(argv[i + 1]); 
+                else 
+                {
+                    std::cout << "El numero de muros debe estar entre 0 y 50" << std::endl; 
+                    return (0);  
+                }
+                
             }
 
         }
 
     }
-       
-    if(!init(resMode, raysRes)) return (0);
-    //init game objects 
+
+    //init game objects    
+    if(!init(resMode, raysRes, numWalls)) return (0);
+   
     while (window->isOpen()) {
         // Handle Keyboard events 
         UpdateInput(); 
