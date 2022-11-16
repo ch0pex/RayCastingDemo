@@ -14,8 +14,8 @@ Walls* boundries;
 
 
 
-void init(int resMode = 1080, float rayRes = 1) {
-    sf::Vector2f viewSize; 
+int init(int resMode = 1080, float rayRes = 1) {
+    sf::Vector2f viewSize;
     switch (resMode)
     {
     case 1080: 
@@ -30,20 +30,18 @@ void init(int resMode = 1080, float rayRes = 1) {
     default:
         std::cout << "ResMode was wrong, it must be 1080, 800, or 720" << std::endl;
         Sleep(5); 
-        exit(-1);
-        break;
+        return(0); 
     }
-
+    
     sf::VideoMode vm(viewSize.x, viewSize.y);
     srand(time(NULL));
     boundries = new Walls();
-    window = new sf::RenderWindow(vm, "Raycasting 2d demo", sf::Style::Default);
+    window = new sf::RenderWindow(vm, "Raycasting 2d demo", sf::Style::None);
     particle = new Particle(sf::Vector2f(viewSize.x / 2, viewSize.y / 2), rayRes);
-    
+    return (1);
 }
 
 void draw() {
-
     for (sf::Vertex* wall : boundries->getWalls()) window->draw(wall, 2, sf::Lines); 
     window->draw(particle->getShape());
     for (Ray* ray : particle->getRays()) window->draw(ray->getLine(), 2, sf::Lines); 
@@ -98,13 +96,19 @@ int main(int argc, char **argv) {
                     return(0);
                 }
             }
-            
+            else if (argv[i] && !strcmp(argv[i], "-r") && argv[i + 1]) {
+                if (atoi(argv[i + 1])) 
+                {
+                    std::cout << "Entro aqui" << std::endl;
+                    raysRes = atoi(argv[i + 1]);
+                }
+            }
 
         }
 
     }
        
-    init(resMode, raysRes);
+    if(!init(resMode, raysRes)) return (0);
     //init game objects 
     while (window->isOpen()) {
         // Handle Keyboard events 
